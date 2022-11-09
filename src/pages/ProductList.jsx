@@ -1,15 +1,74 @@
 import React, { Component } from 'react';
+import ItemCard from '../components/ItemCard';
+import { getProductsFromCategoryAndQuery } from '../services/api';
 
-export default class ProductList extends Component {
+class ProductList extends Component {
   state = {
     productsLoaded: false,
+    searchInputText: '',
+    requestedInfo: {},
+  };
+
+  handleChange = ({ target }) => {
+    const { name, value } = target;
+
+    this.setState({
+      [name]: value,
+    });
+  };
+
+  validateFetchProducts = () => {
+    const { requestedInfo } = this.state;
+    const validation = requestedInfo.results.length > 1;
+    if (validation) {
+      this.setState({
+        productsLoaded: true,
+        hasProducts: true,
+      }); return;
+    }
+
+    this.setState({
+      productsLoaded: true,
+      hasProducts: false,
+    });
+  };
+
+  handleClickButton = async () => {
+    const { searchInputText } = this.state;
+    if (!searchInputText) {
+      this.setState({ productsLoaded: true });
+      return;
+    }
+    const response = await getProductsFromCategoryAndQuery('', searchInputText);
+    this.setState({
+      requestedInfo: response,
+    }, this.validateFetchProducts);
   };
 
   render() {
-    const { productsLoaded } = this.state;
+    const { productsLoaded,
+      searchInputText, requestedInfo: { results }, hasProducts } = this.state;
 
     return (
       <div>
+        <input
+          type="text"
+          name="searchInputText"
+          id="searchInputText"
+          data-testid="query-input"
+          placeholder="exemplo"
+          value={ searchInputText }
+          onChange={ this.handleChange }
+        />
+        <label htmlFor="query-button">
+          <input
+            type="button"
+            id="query-button"
+            data-testid="query-button"
+            value="pesquisar"
+            onClick={ this.handleClickButton }
+          />
+        </label>
         { !productsLoaded
           && (
             <p
@@ -17,7 +76,18 @@ export default class ProductList extends Component {
             >
               Digite algum termo de pesquisa ou escolha uma categoria.
             </p>)}
+        {
+          productsLoaded && (
+            hasProducts && (results.map((product) => (<ItemCard
+              product={ product }
+              key={ product.id }
+            />))))
+        }
+        { (productsLoaded && !hasProducts)
+          && <span>Nenhum produto foi encontrado</span> }
       </div>
     );
   }
 }
+
+export default ProductList;
