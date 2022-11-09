@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import CategoryList from '../components/CategoryList';
 
 export default class ProductList extends Component {
   state = {
@@ -9,7 +10,8 @@ export default class ProductList extends Component {
     const { productsLoaded } = this.state;
 
     return (
-      <div>
+      <div className="home-sections">
+        <CategoryList />
         { !productsLoaded
           && (
             <p
