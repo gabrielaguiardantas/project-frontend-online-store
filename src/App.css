@@ -1,3 +1,9 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 .App {
   text-align: center;
 }
@@ -22,3 +28,15 @@
   }
 }
 
+.home-sections {
+  column-gap: 48px;
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+  width: 100%;
+}
+
+.categories {
+  display: flex;
+  flex-basis: 1;
+}
