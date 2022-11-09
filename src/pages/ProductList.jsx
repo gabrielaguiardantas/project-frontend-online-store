@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import ItemCard from '../components/ItemCard';
 import { getProductsFromCategoryAndQuery } from '../services/api';
+import CategoryList from '../components/CategoryList';
 
 class ProductList extends Component {
   state = {
@@ -50,7 +52,8 @@ class ProductList extends Component {
       searchInputText, requestedInfo: { results }, hasProducts } = this.state;
 
     return (
-      <div>
+      <div className="home-sections">
+        <CategoryList />
         <input
           type="text"
           name="searchInputText"
@@ -71,11 +74,17 @@ class ProductList extends Component {
         </label>
         { !productsLoaded
           && (
-            <p
-              data-testid="home-initial-message"
-            >
-              Digite algum termo de pesquisa ou escolha uma categoria.
-            </p>)}
+            <div>
+              <p
+                data-testid="home-initial-message"
+              >
+                Digite algum termo de pesquisa ou escolha uma categoria.
+              </p>
+              <Link to="/shopping-cart" data-testid="shopping-cart-button">
+                <button type="button">Buscar</button>
+              </Link>
+            </div>
+          )}
         {
           productsLoaded && (
             hasProducts && (results.map((product) => (<ItemCard
