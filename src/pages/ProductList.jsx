@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 export default class ProductList extends Component {
   state = {
@@ -12,11 +13,17 @@ export default class ProductList extends Component {
       <div>
         { !productsLoaded
           && (
-            <p
-              data-testid="home-initial-message"
-            >
-              Digite algum termo de pesquisa ou escolha uma categoria.
-            </p>)}
+            <div>
+              <p
+                data-testid="home-initial-message"
+              >
+                Digite algum termo de pesquisa ou escolha uma categoria.
+              </p>
+              <Link to="/shopping-cart" data-testid="shopping-cart-button">
+                <button type="button">Buscar</button>
+              </Link>
+            </div>
+          )}
       </div>
     );
   }
