@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 class ItemCard extends Component {
   render() {
@@ -10,15 +11,21 @@ class ItemCard extends Component {
         data-testid="product"
         className="product-card"
       >
-        <img
-          src={ thumbnail }
-          alt={ `Imagem de ${title}` }
-          className="product-img"
-        />
-        <div>
-          <p className="product-title">{title}</p>
-          <p className="product-price">{`R$${price}`}</p>
-        </div>
+        <Link
+          to={ `/product/${id}` }
+          data-testid="product-detail-link"
+          className="product-card"
+        >
+          <img
+            src={ thumbnail }
+            alt={ `Imagem de ${title}` }
+            className="product-img"
+          />
+          <div>
+            <p className="product-title">{title}</p>
+            <p className="product-price">{`R$${price}`}</p>
+          </div>
+        </Link>
         <button
           type="button"
           data-testid="product-add-to-cart"
@@ -28,6 +35,7 @@ class ItemCard extends Component {
           Adicionar ao Carrinho
         </button>
       </div>
+
     );
   }
 }
