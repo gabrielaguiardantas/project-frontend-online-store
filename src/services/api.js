@@ -25,10 +25,8 @@ export async function getProductsFromCategoryAndQuery(categoryId = '', query = '
   // return products;
 }
 
-// export async function getProductById(itemId) {
-//   // https://api.mercadolibre.com/sites/MLB/items?id=$ITEM_ID1
-//   // MLB-2039042225
-//   const fetchItem = await fetch(`https://api.mercadolibre.com/sites/MLB/items?id=${itemId}`);
-//   const item = await fetchItem.json();
-//   console.log(item);
-// }
+export async function getProductById(productId) {
+  const fetchItem = await fetch(`https://api.mercadolibre.com/items/${productId}`);
+  const itemResponse = fetchItem.json();
+  return itemResponse;
+}
