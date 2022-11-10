@@ -140,11 +140,12 @@ class ProductList extends Component {
               >
                 Digite algum termo de pesquisa ou escolha uma categoria.
               </p>
-              <Link to="/shopping-cart" data-testid="shopping-cart-button">
-                <button type="button">Carrinho</button>
-              </Link>
+
             </div>
           )}
+          <Link to="/shopping-cart" data-testid="shopping-cart-button">
+            <button type="button">Carrinho</button>
+          </Link>
 
           <div className="products-list">
             { loading && <Loading />}

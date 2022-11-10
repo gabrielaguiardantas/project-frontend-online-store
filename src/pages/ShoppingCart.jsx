@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import CartItem from '../components/CartItem';
 import Loading from '../components/Loading';
+import * as cart from '../services/shoppingCart';
 
 class ShoppingCart extends Component {
   state = {
@@ -10,20 +11,30 @@ class ShoppingCart extends Component {
   };
 
   componentDidMount() {
-    this.getCartItems();
+    this.loadShoppingCart();
   }
 
-  getCartItems = () => {
+  loadShoppingCart = () => {
     this.setState({ loading: true });
-    const cartItems = localStorage.getItem('cartItems');
-    if (!cartItems) return;
-    const parseCartItems = JSON.parse(cartItems);
+    const items = cart.getCartItems();
     this.setState({
-      cartEmpty: false,
-      cartItems: parseCartItems,
+      cartItems: items,
       loading: false,
+      cartEmpty: items.length > 1,
     });
   };
+
+  // getCartItems = () => {
+  //   this.setState({ loading: true });
+  //   const cartItems = localStorage.getItem('cartItems');
+  //   if (!cartItems) return;
+  //   const parseCartItems = JSON.parse(cartItems);
+  //   this.setState({
+  //     cartEmpty: false,
+  //     cartItems: parseCartItems,
+  //     loading: false,
+  //   });
+  // };
 
   render() {
     const { cartEmpty, loading, cartItems } = this.state;
