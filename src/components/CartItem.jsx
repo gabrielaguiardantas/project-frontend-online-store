@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export default class CartItem extends Component {
   render() {
@@ -30,3 +31,10 @@ export default class CartItem extends Component {
     );
   }
 }
+
+CartItem.propTypes = {
+  title: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  quantity: PropTypes.number.isRequired,
+  thumbnail: PropTypes.string.isRequired,
+};
