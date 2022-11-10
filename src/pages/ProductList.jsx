@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import ItemCard from '../components/ItemCard';
-import { getProductsFromCategoryAndQuery } from '../services/api';
+import * as api from '../services/api';
 import CategoryList from '../components/CategoryList';
+import Loading from '../components/Loading';
 
 class ProductList extends Component {
   state = {
     productsLoaded: false,
     searchInputText: '',
-    requestedInfo: {},
+    requestedInfo: [],
+    loading: false,
   };
 
   handleChange = ({ target }) => {
@@ -21,7 +23,7 @@ class ProductList extends Component {
 
   validateFetchProducts = () => {
     const { requestedInfo } = this.state;
-    const validation = requestedInfo.results.length > 1;
+    const validation = requestedInfo.length > 1;
     if (validation) {
       this.setState({
         productsLoaded: true,
@@ -35,25 +37,51 @@ class ProductList extends Component {
     });
   };
 
+  fetchCategoryProducts = async ({ target: { id } }) => {
+    this.setState({ loading: true });
+    const fetchedProds = await api.getProductsFromCategoryAndQuery(id);
+    if (fetchedProds.length < 1) {
+      this.setState({
+        productsLoaded: true,
+        hasProducts: false,
+      });
+      return;
+    }
+    this.setState({
+      requestedInfo: fetchedProds,
+      productsLoaded: true,
+      hasProducts: true,
+      loading: false,
+    });
+  };
+
   handleClickButton = async () => {
+    this.setState({ loading: true });
     const { searchInputText } = this.state;
     if (!searchInputText) {
       this.setState({ productsLoaded: true });
       return;
     }
-    const response = await getProductsFromCategoryAndQuery('', searchInputText);
+    const response = await api.getProductsFromCategoryAndQuery('', searchInputText);
     this.setState({
-      requestedInfo: response,
+      requestedInfo: response.results,
+      loading: false,
     }, this.validateFetchProducts);
   };
 
   render() {
     const { productsLoaded,
-      searchInputText, requestedInfo: { results }, hasProducts } = this.state;
+      searchInputText,
+      requestedInfo,
+      hasProducts,
+      loading,
+    } = this.state;
 
     return (
       <div className="home-sections">
-        <CategoryList />
+        <CategoryList
+          fetchCategoryProducts={ this.fetchCategoryProducts }
+        />
 
         <div className="search-section">
           <div className="search-controls">
@@ -93,9 +121,10 @@ class ProductList extends Component {
           )}
 
           <div className="products-list">
+            { loading && <Loading />}
             {
               productsLoaded && (
-                hasProducts && (results.map((product) => (<ItemCard
+                hasProducts && (requestedInfo.map((product) => (<ItemCard
                   product={ product }
                   key={ product.id }
                 />))))

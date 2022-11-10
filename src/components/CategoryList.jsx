@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { getCategories } from '../services/api';
 import CategoryCard from './CategoryCard';
 import Loading from './Loading';
@@ -24,6 +25,7 @@ export default class CategoryList extends Component {
 
   render() {
     const { loading, categories } = this.state;
+    const { fetchCategoryProducts } = this.props;
 
     return (
       <div
@@ -35,6 +37,8 @@ export default class CategoryList extends Component {
           { categories.map((cat) => (
             <CategoryCard
               name={ cat.name }
+              categoryId={ cat.id }
+              fetchCategoryProducts={ fetchCategoryProducts }
               key={ cat.id }
             />
           )) }
@@ -43,3 +47,7 @@ export default class CategoryList extends Component {
     );
   }
 }
+
+CategoryList.propTypes = {
+  fetchCategoryProducts: PropTypes.func.isRequired,
+};

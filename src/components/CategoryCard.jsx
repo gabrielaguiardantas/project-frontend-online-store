@@ -5,11 +5,20 @@ export default class CategoryCard extends Component {
   render() {
     const {
       name,
+      categoryId,
+      fetchCategoryProducts,
     } = this.props;
 
     return (
-      <div data-testid="category">
-        <span className="category-name">{name}</span>
+      <div>
+        <button
+          type="button"
+          onClick={ fetchCategoryProducts }
+          id={ categoryId }
+          data-testid="category"
+        >
+          {name}
+        </button>
       </div>
     );
   }
@@ -17,4 +26,6 @@ export default class CategoryCard extends Component {
 
 CategoryCard.propTypes = {
   name: PropTypes.string.isRequired,
+  categoryId: PropTypes.string.isRequired,
+  fetchCategoryProducts: PropTypes.func.isRequired,
 };
