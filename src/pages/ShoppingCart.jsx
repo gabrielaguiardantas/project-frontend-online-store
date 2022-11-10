@@ -24,6 +24,31 @@ class ShoppingCart extends Component {
     });
   };
 
+  updateQuantity = () => {
+    const { id } = this.props;
+    this.setState({ quantity: cart.getQuantity(id) });
+  };
+
+  increaseAndUpdate = (e) => {
+    const { target: { id } } = e;
+    cart.increaseQuantity(id);
+    this.forceUpdate();
+    // this.setState({ quantity: cart.getQuantity(id) });
+  };
+
+  decreaseAndUpdate = (e) => {
+    const { target: { id } } = e;
+    cart.decreaseQuantity(id);
+    // this.setState({ quantity: cart.getQuantity(id) });
+  };
+
+  removeAndUpdate = (e) => {
+    const { target: { id } } = e;
+    cart.removeItem(id);
+    // window.location.reload();
+    // this.forceUpdate();
+  };
+
   // getCartItems = () => {
   //   this.setState({ loading: true });
   //   const cartItems = localStorage.getItem('cartItems');
@@ -50,6 +75,10 @@ class ShoppingCart extends Component {
                 price={ item.price }
                 thumbnail={ item.thumbnail }
                 quantity={ item.quantity }
+                id={ item.id }
+                increase={ this.increaseAndUpdate }
+                decrease={ this.decreaseAndUpdate }
+                remove={ this.removeAndUpdate }
               />))
         )}
         { cartEmpty
