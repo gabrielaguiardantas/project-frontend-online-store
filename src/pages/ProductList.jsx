@@ -11,6 +11,7 @@ class ProductList extends Component {
     searchInputText: '',
     requestedInfo: [],
     loading: false,
+    cartProducts: [],
   };
 
   componentDidMount() {
@@ -78,6 +79,18 @@ class ProductList extends Component {
     }, this.validateFetchProducts);
   };
 
+  handleClickCartButton = ({ target }) => {
+    const { id } = target;
+    const { requestedInfo } = this.state;
+    const productFound = requestedInfo.find((productObj) => productObj.id === id);
+    this.setState(({ cartProducts }) => (
+      { cartProducts: [...cartProducts, productFound] }), () => {
+      const { cartProducts } = this.state;
+      localStorage
+        .setItem('cartProducts', JSON.stringify(cartProducts));
+    });
+  };
+
   render() {
     const { productsLoaded,
       searchInputText,
@@ -136,6 +149,8 @@ class ProductList extends Component {
                 hasProducts && (requestedInfo.map((product) => (<ItemCard
                   product={ product }
                   key={ product.id }
+                  id={ product.id }
+                  handleClickCartButton={ this.handleClickCartButton }
                 />))))
             }
             { (productsLoaded && !hasProducts)
