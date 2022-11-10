@@ -139,3 +139,13 @@ button:active {
   border-radius: 6px;
   max-width: 128px;
 }
+
+.quantity-controls {
+  align-items: center;
+  column-gap: 12px;
+  display: flex;
+}
+
+.shopping-cart-item {
+  margin-bottom: 24px;
+}

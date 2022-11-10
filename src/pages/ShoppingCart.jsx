@@ -49,7 +49,7 @@ class ShoppingCart extends Component {
                 key={ item.id }
                 price={ item.price }
                 thumbnail={ item.thumbnail }
-                quantity={ 1 }
+                quantity={ item.quantity }
               />))
         )}
         { cartEmpty

@@ -9,7 +9,8 @@ export const getCartItems = () => {
 
 export const addToCart = (product) => {
   const cartItems = getCartItems();
-  cartItems.push(product);
+  const productWithQtt = { ...product, quantity: 1 };
+  cartItems.push(productWithQtt);
   const cartItemsString = JSON.stringify(cartItems);
   localStorage.setItem('cartItems', cartItemsString);
 };

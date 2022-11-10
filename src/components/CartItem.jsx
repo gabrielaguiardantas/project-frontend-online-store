@@ -11,7 +11,7 @@ export default class CartItem extends Component {
     } = this.props;
 
     return (
-      <div>
+      <div className="shopping-cart-item">
         <img
           src={ thumbnail }
           alt={ title }
@@ -27,6 +27,21 @@ export default class CartItem extends Component {
         >
           { quantity }
         </span>
+        <div className="quantity-controls">
+          <button
+            data-testid="product-decrease-quantity"
+            type="button"
+          >
+            -
+          </button>
+          <span>{ quantity }</span>
+          <button
+            data-testid="product-increase-quantity"
+            type="button"
+          >
+            +
+          </button>
+        </div>
       </div>
     );
   }
