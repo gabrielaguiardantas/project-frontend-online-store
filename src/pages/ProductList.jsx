@@ -62,19 +62,20 @@ class ProductList extends Component {
               name="searchInputText"
               id="searchInputText"
               data-testid="query-input"
-              placeholder="exemplo"
+              placeholder="Nome do produto"
               value={ searchInputText }
               onChange={ this.handleChange }
+              className="text-input"
             />
-            <label htmlFor="query-button">
-              <input
-                type="button"
-                id="query-button"
-                data-testid="query-button"
-                value="pesquisar"
-                onClick={ this.handleClickButton }
-              />
-            </label>
+            <button
+              type="button"
+              id="query-button"
+              data-testid="query-button"
+              value="pesquisar"
+              onClick={ this.handleClickButton }
+            >
+              Pesquisar
+            </button>
           </div>
 
           { !productsLoaded
@@ -86,19 +87,23 @@ class ProductList extends Component {
                 Digite algum termo de pesquisa ou escolha uma categoria.
               </p>
               <Link to="/shopping-cart" data-testid="shopping-cart-button">
-                <button type="button">Buscar</button>
+                <button type="button">Carrinho</button>
               </Link>
             </div>
           )}
-          {
-            productsLoaded && (
-              hasProducts && (results.map((product) => (<ItemCard
-                product={ product }
-                key={ product.id }
-              />))))
-          }
-          { (productsLoaded && !hasProducts)
+
+          <div className="products-list">
+            {
+              productsLoaded && (
+                hasProducts && (results.map((product) => (<ItemCard
+                  product={ product }
+                  key={ product.id }
+                />))))
+            }
+            { (productsLoaded && !hasProducts)
           && <span>Nenhum produto foi encontrado</span> }
+          </div>
+
         </div>
       </div>
     );

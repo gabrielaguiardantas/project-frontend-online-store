@@ -54,11 +54,13 @@ body {
 
 .search-section {
   align-items: center;
-  border: 1px solid green;
+  background-color: #313244;
+  border-radius: 6px;
   display: flex;
   flex-flow: column wrap;
   justify-content: center;
   order: 2;
+  padding: 32px;
 }
 
 .product-card {
@@ -76,4 +78,37 @@ body {
 .product-title {
   font-weight: 600;
   margin-bottom: 6px;
+}
+
+button {
+  background-color: #1e66f5;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 600;
+  padding: 8px;
+  transition: 0.25s ease-in-out;
+}
+
+button:hover {
+  cursor: pointer;
+  filter: brightness(110%);
+}
+
+button:active {
+  filter: brightness(75%);
+}
+
+.text-input {
+  background-color: rgba(0, 0, 0, 0);
+  border: 0;
+  border-bottom: 1px solid #cdd6f4;
+  color: #cdd6f4;
+  padding: 8px;
+  transition: 0.25s ease-in-out;
+}
+
+.text-input:focus {
+  border-bottom: 1px solid #1e66f5;
+  outline: 0;
 }
