@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import ItemCard from '../components/ItemCard';
 import * as api from '../services/api';
+import * as cart from '../services/shoppingCart';
 import CategoryList from '../components/CategoryList';
 import Loading from '../components/Loading';
 
@@ -11,7 +12,16 @@ class ProductList extends Component {
     searchInputText: '',
     requestedInfo: [],
     loading: false,
-    cartProducts: [],
+    // cartProducts: [],
+  };
+
+  componentDidMount() {
+    this.setLocalStorage();
+  }
+
+  setLocalStorage = () => {
+    if (localStorage.getItem('cartItems')) return;
+    localStorage.setItem('cartItems', '');
   };
 
   handleChange = ({ target }) => {
@@ -72,14 +82,17 @@ class ProductList extends Component {
 
   handleClickCartButton = ({ target }) => {
     const { id } = target;
+    // const item = api.getProductById(id);
+
     const { requestedInfo } = this.state;
     const productFound = requestedInfo.find((productObj) => productObj.id === id);
-    this.setState(({ cartProducts }) => (
-      { cartProducts: [...cartProducts, productFound] }), () => {
-      const { cartProducts } = this.state;
-      localStorage
-        .setItem('cartProducts', JSON.stringify(cartProducts));
-    });
+    cart.addToCart(productFound);
+    // this.setState(({ cartProducts }) => (
+    //   { cartProducts: [...cartProducts, productFound] }), () => {
+    //   const { cartProducts } = this.state;
+    //   localStorage
+    //     .setItem('cartProducts', JSON.stringify(cartProducts));
+    // });
   };
 
   render() {
@@ -127,11 +140,12 @@ class ProductList extends Component {
               >
                 Digite algum termo de pesquisa ou escolha uma categoria.
               </p>
-              <Link to="/shopping-cart" data-testid="shopping-cart-button">
-                <button type="button">Carrinho</button>
-              </Link>
+
             </div>
           )}
+          <Link to="/shopping-cart" data-testid="shopping-cart-button">
+            <button type="button">Carrinho</button>
+          </Link>
 
           <div className="products-list">
             { loading && <Loading />}
