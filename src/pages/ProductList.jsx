@@ -64,7 +64,7 @@ class ProductList extends Component {
     }
     const response = await api.getProductsFromCategoryAndQuery('', searchInputText);
     this.setState({
-      requestedInfo: response,
+      requestedInfo: response.results,
       loading: false,
     }, this.validateFetchProducts);
   };
