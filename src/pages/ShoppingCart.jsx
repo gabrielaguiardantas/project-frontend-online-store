@@ -20,7 +20,7 @@ class ShoppingCart extends Component {
     this.setState({
       cartItems: items,
       loading: false,
-      cartEmpty: items.length > 1,
+      cartEmpty: items.length < 1,
     });
   };
 
@@ -41,19 +41,19 @@ class ShoppingCart extends Component {
     return (
       <div>
         { loading && <Loading /> }
-        {cartEmpty
-          ? <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>
-          : (
-            cartItems
-              .map((item) => (
-                <CartItem
-                  title={ item.title }
-                  key={ item.id }
-                  price={ item.price }
-                  thumbnail={ item.thumbnail }
-                  quantity={ 1 }
-                />))
-          )}
+        { !cartEmpty && (
+          cartItems
+            .map((item) => (
+              <CartItem
+                title={ item.title }
+                key={ item.id }
+                price={ item.price }
+                thumbnail={ item.thumbnail }
+                quantity={ 1 }
+              />))
+        )}
+        { cartEmpty
+        && <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>}
 
       </div>
     );
