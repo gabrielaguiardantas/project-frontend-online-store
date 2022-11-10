@@ -54,25 +54,30 @@ class ProductList extends Component {
     return (
       <div className="home-sections">
         <CategoryList />
-        <input
-          type="text"
-          name="searchInputText"
-          id="searchInputText"
-          data-testid="query-input"
-          placeholder="exemplo"
-          value={ searchInputText }
-          onChange={ this.handleChange }
-        />
-        <label htmlFor="query-button">
-          <input
-            type="button"
-            id="query-button"
-            data-testid="query-button"
-            value="pesquisar"
-            onClick={ this.handleClickButton }
-          />
-        </label>
-        { !productsLoaded
+
+        <div className="search-section">
+          <div className="search-controls">
+            <input
+              type="text"
+              name="searchInputText"
+              id="searchInputText"
+              data-testid="query-input"
+              placeholder="exemplo"
+              value={ searchInputText }
+              onChange={ this.handleChange }
+            />
+            <label htmlFor="query-button">
+              <input
+                type="button"
+                id="query-button"
+                data-testid="query-button"
+                value="pesquisar"
+                onClick={ this.handleClickButton }
+              />
+            </label>
+          </div>
+
+          { !productsLoaded
           && (
             <div>
               <p
@@ -85,15 +90,16 @@ class ProductList extends Component {
               </Link>
             </div>
           )}
-        {
-          productsLoaded && (
-            hasProducts && (results.map((product) => (<ItemCard
-              product={ product }
-              key={ product.id }
-            />))))
-        }
-        { (productsLoaded && !hasProducts)
+          {
+            productsLoaded && (
+              hasProducts && (results.map((product) => (<ItemCard
+                product={ product }
+                key={ product.id }
+              />))))
+          }
+          { (productsLoaded && !hasProducts)
           && <span>Nenhum produto foi encontrado</span> }
+        </div>
       </div>
     );
   }
