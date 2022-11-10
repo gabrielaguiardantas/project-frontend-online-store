@@ -8,7 +8,7 @@ class ProductList extends Component {
   state = {
     productsLoaded: false,
     searchInputText: '',
-    requestedInfo: {},
+    requestedInfo: [],
   };
 
   handleChange = ({ target }) => {
@@ -21,7 +21,7 @@ class ProductList extends Component {
 
   validateFetchProducts = () => {
     const { requestedInfo } = this.state;
-    const validation = requestedInfo.results.length > 1;
+    const validation = requestedInfo.length > 1;
     if (validation) {
       this.setState({
         productsLoaded: true,
@@ -35,6 +35,22 @@ class ProductList extends Component {
     });
   };
 
+  fetchCategoryProducts = async ({ target: { id } }) => {
+    const fetchedProds = await getProductsFromCategoryAndQuery(id);
+    if (fetchedProds.length < 1) {
+      this.setState({
+        productsLoaded: true,
+        hasProducts: false,
+      });
+      return;
+    }
+    this.setState({
+      requestedInfo: fetchedProds,
+      productsLoaded: true,
+      hasProducts: true,
+    });
+  };
+
   handleClickButton = async () => {
     const { searchInputText } = this.state;
     if (!searchInputText) {
@@ -43,17 +59,22 @@ class ProductList extends Component {
     }
     const response = await getProductsFromCategoryAndQuery('', searchInputText);
     this.setState({
-      requestedInfo: response,
+      requestedInfo: response.results,
     }, this.validateFetchProducts);
   };
 
   render() {
     const { productsLoaded,
-      searchInputText, requestedInfo: { results }, hasProducts } = this.state;
+      searchInputText,
+      requestedInfo,
+      hasProducts,
+    } = this.state;
 
     return (
       <div className="home-sections">
-        <CategoryList />
+        <CategoryList
+          fetchCategoryProducts={ this.fetchCategoryProducts }
+        />
 
         <div className="search-section">
           <div className="search-controls">
@@ -95,7 +116,7 @@ class ProductList extends Component {
           <div className="products-list">
             {
               productsLoaded && (
-                hasProducts && (results.map((product) => (<ItemCard
+                hasProducts && (requestedInfo.map((product) => (<ItemCard
                   product={ product }
                   key={ product.id }
                 />))))
