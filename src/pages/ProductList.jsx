@@ -13,6 +13,15 @@ class ProductList extends Component {
     loading: false,
   };
 
+  componentDidMount() {
+    this.setLocalStorage();
+  }
+
+  setLocalStorage = () => {
+    if (localStorage.getItem('cartItems')) return;
+    localStorage.setItem('cartItems', '');
+  };
+
   handleChange = ({ target }) => {
     const { name, value } = target;
 
