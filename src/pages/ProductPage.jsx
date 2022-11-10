@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { getProductById } from '../services/api';
 import Loading from '../components/Loading';
+import * as cart from '../services/shoppingCart';
 
 export default class ProductPage extends Component {
   state = {
@@ -28,19 +29,9 @@ export default class ProductPage extends Component {
     });
   };
 
-  getCartItems = () => {
-    const cartItems = localStorage.getItem('cartItems');
-    if (!cartItems) return [];
-    const parsedCartItems = JSON.parse(cartItems);
-    parsedCartItems.map((item) => ({ ...item, quantity: 1 }));
-  };
-
-  addToCart = () => {
-    const cartItems = this.getCartItems();
+  sendToCart = () => {
     const { product } = this.state;
-    cartItems.push(product);
-    const cartItemsString = JSON.stringify(cartItems);
-    localStorage.setItem('cartItems', cartItemsString);
+    cart.addToCart(product);
   };
 
   render() {
@@ -83,7 +74,7 @@ export default class ProductPage extends Component {
             <button
               type="button"
               data-testid="product-detail-add-to-cart"
-              onClick={ this.addToCart }
+              onClick={ this.sendToCart }
             >
               Adicionar ao carrinho
             </button>

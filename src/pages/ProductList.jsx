@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import ItemCard from '../components/ItemCard';
 import * as api from '../services/api';
+import * as cart from '../services/shoppingCart';
 import CategoryList from '../components/CategoryList';
 import Loading from '../components/Loading';
 
@@ -11,7 +12,7 @@ class ProductList extends Component {
     searchInputText: '',
     requestedInfo: [],
     loading: false,
-    cartProducts: [],
+    // cartProducts: [],
   };
 
   componentDidMount() {
@@ -81,14 +82,17 @@ class ProductList extends Component {
 
   handleClickCartButton = ({ target }) => {
     const { id } = target;
+    // const item = api.getProductById(id);
+
     const { requestedInfo } = this.state;
     const productFound = requestedInfo.find((productObj) => productObj.id === id);
-    this.setState(({ cartProducts }) => (
-      { cartProducts: [...cartProducts, productFound] }), () => {
-      const { cartProducts } = this.state;
-      localStorage
-        .setItem('cartProducts', JSON.stringify(cartProducts));
-    });
+    cart.addToCart(productFound);
+    // this.setState(({ cartProducts }) => (
+    //   { cartProducts: [...cartProducts, productFound] }), () => {
+    //   const { cartProducts } = this.state;
+    //   localStorage
+    //     .setItem('cartProducts', JSON.stringify(cartProducts));
+    // });
   };
 
   render() {
