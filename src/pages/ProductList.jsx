@@ -80,7 +80,7 @@ class ProductList extends Component {
 
           { !productsLoaded
           && (
-            <div>
+            <div className="products-list-no-search">
               <p
                 data-testid="home-initial-message"
               >

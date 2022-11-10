@@ -12,6 +12,7 @@ class ItemCard extends Component {
         <img
           src={ thumbnail }
           alt={ `Imagem de ${title}` }
+          className="product-img"
         />
         <div>
           <p className="product-title">{title}</p>
