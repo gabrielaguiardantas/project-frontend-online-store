@@ -10,11 +10,12 @@ export default class CategoryCard extends Component {
     } = this.props;
 
     return (
-      <div data-testid="category">
+      <div>
         <button
           type="button"
           onClick={ fetchCategoryProducts }
           id={ categoryId }
+          data-testid="category"
         >
           {name}
         </button>
