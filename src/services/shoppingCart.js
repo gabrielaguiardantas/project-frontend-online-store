@@ -11,28 +11,28 @@ export const getQuantity = (id) => {
   return item.quantity;
 };
 
-export const increaseQuantity = (id) => {
-  const cartItems = JSON.parse(localStorage.getItem('cartItems'));
-  const item = cartItems.find((i) => i.id === id);
-  item.quantity += 1;
-  const cartItemsString = JSON.stringify(cartItems);
-  localStorage.setItem('cartItems', cartItemsString);
-};
+// export const increaseQuantity = (id) => {
+//   const cartItems = JSON.parse(localStorage.getItem('cartItems'));
+//   const item = cartItems.find((i) => i.id === id);
+//   item.quantity += 1;
+//   const cartItemsString = JSON.stringify(cartItems);
+//   localStorage.setItem('cartItems', cartItemsString);
+// };
 
-export const decreaseQuantity = (id) => {
-  const cartItems = JSON.parse(localStorage.getItem('cartItems'));
-  const item = cartItems.find((i) => i.id === id);
-  if (item.quantity > 1) item.quantity -= 1;
-  const cartItemsString = JSON.stringify(cartItems);
-  localStorage.setItem('cartItems', cartItemsString);
-};
+// export const decreaseQuantity = (id) => {
+//   const cartItems = JSON.parse(localStorage.getItem('cartItems'));
+//   const item = cartItems.find((i) => i.id === id);
+//   if (item.quantity > 1) item.quantity -= 1;
+//   const cartItemsString = JSON.stringify(cartItems);
+//   localStorage.setItem('cartItems', cartItemsString);
+// };
 
-export const removeItem = (id) => {
-  const cartItems = JSON.parse(localStorage.getItem('cartItems'));
-  const filteredItems = cartItems.filter((i) => i.id !== id);
-  const cartItemsString = JSON.stringify(filteredItems);
-  localStorage.setItem('cartItems', cartItemsString);
-};
+// export const removeItem = (id) => {
+//   const cartItems = JSON.parse(localStorage.getItem('cartItems'));
+//   const filteredItems = cartItems.filter((i) => i.id !== id);
+//   const cartItemsString = JSON.stringify(filteredItems);
+//   localStorage.setItem('cartItems', cartItemsString);
+// };
 
 export const addToCart = (product) => {
   const cartItems = getCartItems();

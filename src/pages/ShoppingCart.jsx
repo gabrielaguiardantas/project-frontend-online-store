@@ -24,42 +24,9 @@ class ShoppingCart extends Component {
     });
   };
 
-  updateQuantity = () => {
-    const { id } = this.props;
-    this.setState({ quantity: cart.getQuantity(id) });
+  updateCart = () => {
+    this.loadShoppingCart();
   };
-
-  increaseAndUpdate = (e) => {
-    const { target: { id } } = e;
-    cart.increaseQuantity(id);
-    this.forceUpdate();
-    // this.setState({ quantity: cart.getQuantity(id) });
-  };
-
-  decreaseAndUpdate = (e) => {
-    const { target: { id } } = e;
-    cart.decreaseQuantity(id);
-    // this.setState({ quantity: cart.getQuantity(id) });
-  };
-
-  removeAndUpdate = (e) => {
-    const { target: { id } } = e;
-    cart.removeItem(id);
-    // window.location.reload();
-    // this.forceUpdate();
-  };
-
-  // getCartItems = () => {
-  //   this.setState({ loading: true });
-  //   const cartItems = localStorage.getItem('cartItems');
-  //   if (!cartItems) return;
-  //   const parseCartItems = JSON.parse(cartItems);
-  //   this.setState({
-  //     cartEmpty: false,
-  //     cartItems: parseCartItems,
-  //     loading: false,
-  //   });
-  // };
 
   render() {
     const { cartEmpty, loading, cartItems } = this.state;
@@ -76,10 +43,9 @@ class ShoppingCart extends Component {
                 thumbnail={ item.thumbnail }
                 quantity={ item.quantity }
                 id={ item.id }
-                increase={ this.increaseAndUpdate }
-                decrease={ this.decreaseAndUpdate }
-                remove={ this.removeAndUpdate }
-              />))
+                updateCart={ this.updateCart }
+              />
+            ))
         )}
         { cartEmpty
         && <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>}

@@ -1,39 +1,27 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import * as cart from '../services/shoppingCart';
+// import * as cart from '../services/shoppingCart';
 
 export default class CartItem extends Component {
-  // state = {
-  //   quantity: 1,
-  // };
+  // obrigado grupo do alan pela ajuda
+  buttonClick = (e) => {
+    const { id, updateCart } = this.props;
+    const storageItems = JSON.parse(localStorage.getItem('cartItems'));
+    const { target: { name } } = e;
 
-  // componentDidMount() {
-  //   this.updateQuantity();
-  // }
-
-  // updateQuantity = () => {
-  //   const { id } = this.props;
-  //   this.setState({ quantity: cart.getQuantity(id) });
-  // };
-
-  // increaseAndUpdate = (e) => {
-  //   const { target: { id } } = e;
-  //   cart.increaseQuantity(id);
-  //   this.setState({ quantity: cart.getQuantity(id) });
-  // };
-
-  // decreaseAndUpdate = (e) => {
-  //   const { target: { id } } = e;
-  //   cart.decreaseQuantity(id);
-  //   this.setState({ quantity: cart.getQuantity(id) });
-  // };
-
-  // removeAndUpdate = (e) => {
-  //   const { target: { id } } = e;
-  //   cart.removeItem(id);
-  //   // window.location.reload();
-  //   this.forceUpdate();
-  // };
+    if (name === 'remove') {
+      const filteredItems = storageItems.filter((item) => item.id !== id);
+      localStorage.setItem('cartItems', JSON.stringify(filteredItems));
+    } else {
+      const currItem = storageItems.findIndex((item) => item.id === id);
+      if (name === 'increase') storageItems[currItem].quantity += 1;
+      if (name === 'decrease' && storageItems[currItem].quantity > 1) {
+        storageItems[currItem].quantity -= 1;
+      }
+      localStorage.setItem('cartItems', JSON.stringify(storageItems));
+    }
+    updateCart();
+  };
 
   render() {
     const {
@@ -41,13 +29,12 @@ export default class CartItem extends Component {
       price,
       quantity,
       thumbnail,
-      id,
-      increase,
-      decrease,
-      remove,
+      // id,
+      // increase,
+      // decrease,
+      // remove,
+      // update,
     } = this.props;
-
-    // const { quantity } = this.state;
 
     return (
       <div className="shopping-cart-item">
@@ -70,8 +57,8 @@ export default class CartItem extends Component {
           <button
             data-testid="product-decrease-quantity"
             type="button"
-            id={ id }
-            onClick={ decrease }
+            name="decrease"
+            onClick={ this.buttonClick }
 
           >
             -
@@ -80,16 +67,16 @@ export default class CartItem extends Component {
           <button
             data-testid="product-increase-quantity"
             type="button"
-            id={ id }
-            onClick={ increase }
+            name="increase"
+            onClick={ this.buttonClick }
           >
             +
           </button>
           <button
             data-testid="remove-product"
             type="button"
-            id={ id }
-            onClick={ remove }
+            name="remove"
+            onClick={ this.buttonClick }
           >
             Excluir
           </button>
@@ -105,4 +92,5 @@ CartItem.propTypes = {
   quantity: PropTypes.number.isRequired,
   thumbnail: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  updateCart: PropTypes.func.isRequired,
 };
