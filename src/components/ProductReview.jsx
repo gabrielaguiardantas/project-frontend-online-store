@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import * as review from '../services/review';
 
 export default class ProductReview extends Component {
   state = {
@@ -7,7 +8,14 @@ export default class ProductReview extends Component {
     emailInput: '',
     reviewInput: '',
     rating: 0,
+    id: '',
   };
+
+  componentDidMount() {
+    const { id } = this.props;
+    this.setState({ id });
+    // review.createKey(id);
+  }
 
   validateInputs = () => {
     const { emailInput, rating } = this.state;
@@ -29,12 +37,23 @@ export default class ProductReview extends Component {
     if (name === 'text-area-input') this.setState({ reviewInput: value });
   };
 
+  sendReviewToStorage = () => {
+    const { id, emailInput, reviewInput, rating } = this.state;
+    const thisReview = { id, email: emailInput, text: reviewInput, rating };
+    review.sendReview(thisReview);
+
+    this.setState({
+      emailInput: '',
+      reviewInput: '',
+      rating: 0,
+    }, this.validateInputs);
+  };
+
   defaultSubmit = (e) => {
     e.preventDefault();
   };
 
   render() {
-    const { id } = this.props;
     const { btnDisabled } = this.state;
     return (
       <div>
@@ -116,10 +135,12 @@ export default class ProductReview extends Component {
             type="button"
             data-testid="submit-review-btn"
             disabled={ btnDisabled }
+            onClick={ this.sendReviewToStorage }
           >
             Enviar
           </button>
         </form>
+        { btnDisabled && <span data-testid="error-msg">Campos inválidos</span>}
       </div>
     );
   }
