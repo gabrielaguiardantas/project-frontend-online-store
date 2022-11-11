@@ -79,10 +79,7 @@ export default class ProductPage extends Component {
             >
               Adicionar ao carrinho
             </button>
-            <ProductReview
-              id={ product.id }
-            />
-
+            <ProductReview id={ product.id } />
           </div>
         )}
       </div>

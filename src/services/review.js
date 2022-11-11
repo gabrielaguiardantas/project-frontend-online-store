@@ -1,7 +1,6 @@
 export const getReviews = (id) => {
   const reviewStorage = localStorage.getItem(id);
   if (!reviewStorage) return [];
-  console.log(JSON.parse(reviewStorage));
   return JSON.parse(reviewStorage);
 };
 
