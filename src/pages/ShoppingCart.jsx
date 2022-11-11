@@ -24,17 +24,9 @@ class ShoppingCart extends Component {
     });
   };
 
-  // getCartItems = () => {
-  //   this.setState({ loading: true });
-  //   const cartItems = localStorage.getItem('cartItems');
-  //   if (!cartItems) return;
-  //   const parseCartItems = JSON.parse(cartItems);
-  //   this.setState({
-  //     cartEmpty: false,
-  //     cartItems: parseCartItems,
-  //     loading: false,
-  //   });
-  // };
+  updateCart = () => {
+    this.loadShoppingCart();
+  };
 
   render() {
     const { cartEmpty, loading, cartItems } = this.state;
@@ -49,8 +41,11 @@ class ShoppingCart extends Component {
                 key={ item.id }
                 price={ item.price }
                 thumbnail={ item.thumbnail }
-                quantity={ 1 }
-              />))
+                quantity={ item.quantity }
+                id={ item.id }
+                updateCart={ this.updateCart }
+              />
+            ))
         )}
         { cartEmpty
         && <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>}
