@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import CartItem from '../components/CartItem';
 import Loading from '../components/Loading';
 import * as cart from '../services/shoppingCart';
@@ -49,7 +50,10 @@ class ShoppingCart extends Component {
         )}
         { cartEmpty
         && <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>}
-
+        {
+          !cartEmpty
+          && <Link to="/checkout" data-testid="checkout-products">Finalizar compra</Link>
+        }
       </div>
     );
   }
