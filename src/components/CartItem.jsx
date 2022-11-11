@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import * as cart from '../services/shoppingCart';
 
 export default class CartItem extends Component {
   // obrigado grupo do alan pela ajuda
@@ -20,6 +19,7 @@ export default class CartItem extends Component {
       }
       localStorage.setItem('cartItems', JSON.stringify(storageItems));
     }
+    // isso vai obrigar a atualização do componente sem bagunça com props
     updateCart();
   };
 
@@ -29,11 +29,6 @@ export default class CartItem extends Component {
       price,
       quantity,
       thumbnail,
-      // id,
-      // increase,
-      // decrease,
-      // remove,
-      // update,
     } = this.props;
 
     return (
