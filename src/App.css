@@ -102,6 +102,11 @@ button:active {
   filter: brightness(75%);
 }
 
+button:disabled {
+  cursor: default;
+  filter: saturate(25%) brightness(75%);
+}
+
 .text-input {
   background-color: rgba(0, 0, 0, 0);
   border: 0;
