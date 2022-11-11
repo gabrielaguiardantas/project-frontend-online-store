@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import * as review from '../services/review';
+import Review from './Review';
 
 export default class ProductReview extends Component {
   state = {
@@ -10,12 +11,13 @@ export default class ProductReview extends Component {
     email: '',
     text: '',
     rating: 0,
+    reviews: [],
   };
 
   componentDidMount() {
     const { id } = this.props;
     this.setState({ id });
-    // review.createKey(id);
+    this.fetchReviews(id);
   }
 
   validateInputs = () => {
@@ -39,6 +41,12 @@ export default class ProductReview extends Component {
     this.setState({ [name]: value }, this.validateInputs);
   };
 
+  fetchReviews = () => {
+    const { id } = this.props;
+    const fetchedReviews = review.getReviews(id);
+    this.setState({ reviews: fetchedReviews });
+  };
+
   sendReviewToStorage = () => {
     const { id, email, text, rating } = this.state;
     const thisReview = { id, email, text, rating };
@@ -50,7 +58,7 @@ export default class ProductReview extends Component {
       rating: 0,
       btnDisabled: true,
       errMsg: false,
-    });
+    }, this.fetchReviews);
   };
 
   // defaultSubmit = (e) => {
@@ -58,7 +66,7 @@ export default class ProductReview extends Component {
   // };
 
   render() {
-    const { btnDisabled, email, text, errMsg } = this.state;
+    const { btnDisabled, email, text, errMsg, reviews } = this.state;
     return (
       <div>
         <form>
@@ -121,6 +129,16 @@ export default class ProductReview extends Component {
           </button>
         </form>
         { errMsg && <span data-testid="error-msg">Campos inválidos</span>}
+        { reviews.length > 0 && (
+          reviews.map((item, index) => (
+            <Review
+              key={ index }
+              email={ item.email }
+              text={ item.text }
+              rating={ item.rating }
+            />
+          ))
+        )}
       </div>
     );
   }
