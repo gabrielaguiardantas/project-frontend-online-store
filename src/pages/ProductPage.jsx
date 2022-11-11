@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { getProductById } from '../services/api';
 import Loading from '../components/Loading';
 import * as cart from '../services/shoppingCart';
+import ProductReview from '../components/ProductReview';
 
 export default class ProductPage extends Component {
   state = {
@@ -78,6 +79,7 @@ export default class ProductPage extends Component {
             >
               Adicionar ao carrinho
             </button>
+            <ProductReview id={ product.id } />
           </div>
         )}
       </div>
