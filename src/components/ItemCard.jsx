@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom';
 
 class ItemCard extends Component {
   render() {
-    const { product: { title, price, thumbnail,
-      id }, handleClickCartButton } = this.props;
+    const {
+      product: { title, price, thumbnail, id,
+        shipping: { free_shipping: freeShipping } }, handleClickCartButton } = this.props;
     return (
       <div
         data-testid="product"
@@ -24,6 +25,9 @@ class ItemCard extends Component {
           <div>
             <p className="product-title">{title}</p>
             <p className="product-price">{`R$${price}`}</p>
+            {
+              freeShipping && <p data-testid="free-shipping">Frete Grátis</p>
+            }
           </div>
         </Link>
         <button
