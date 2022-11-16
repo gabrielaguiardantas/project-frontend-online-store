@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { sumCartQuantity } from '../services/shoppingCart';
+import { getAvailableQuantity, sumCartQuantity } from '../services/shoppingCart';
 
 export default class CartItem extends Component {
   // obrigado grupo do alan pela ajuda
@@ -14,7 +14,9 @@ export default class CartItem extends Component {
       localStorage.setItem('cartItems', JSON.stringify(filteredItems));
     } else {
       const currItem = storageItems.findIndex((item) => item.id === id);
-      if (name === 'increase') storageItems[currItem].quantity += 1;
+      const availableQuantity = getAvailableQuantity(e)
+      > storageItems[currItem].quantity;
+      if (name === 'increase' && availableQuantity) storageItems[currItem].quantity += 1;
       if (name === 'decrease' && storageItems[currItem].quantity > 1) {
         storageItems[currItem].quantity -= 1;
       }
@@ -30,7 +32,7 @@ export default class CartItem extends Component {
       title,
       price,
       quantity,
-      thumbnail,
+      thumbnail, id,
     } = this.props;
 
     return (
@@ -56,6 +58,7 @@ export default class CartItem extends Component {
             type="button"
             name="decrease"
             onClick={ this.buttonClick }
+            id={ id }
 
           >
             -
@@ -66,6 +69,7 @@ export default class CartItem extends Component {
             type="button"
             name="increase"
             onClick={ this.buttonClick }
+            id={ id }
           >
             +
           </button>
