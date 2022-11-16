@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { sumCartQuantity } from '../services/shoppingCart';
 
 export default class CartItem extends Component {
   // obrigado grupo do alan pela ajuda
@@ -21,6 +22,7 @@ export default class CartItem extends Component {
     }
     // isso vai obrigar a atualização do componente sem bagunça com props
     updateCart();
+    sumCartQuantity();
   };
 
   render() {

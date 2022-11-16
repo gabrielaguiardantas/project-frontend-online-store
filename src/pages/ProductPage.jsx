@@ -11,11 +11,13 @@ export default class ProductPage extends Component {
     loading: false,
     productLoaded: false,
     product: {},
+    cartSize: 0,
   };
 
   componentDidMount() {
     const { match: { params: { id } } } = this.props;
     this.fetchItem(id);
+    this.getQuantity();
   }
 
   fetchItem = async (id) => {
@@ -30,13 +32,22 @@ export default class ProductPage extends Component {
     });
   };
 
+  getQuantity = () => {
+    if (localStorage.getItem('cartSize')) {
+      const quantity = JSON.parse(localStorage.getItem('cartSize'));
+      if (quantity === null) this.setState({ cartSize: 0 });
+      else this.setState({ cartSize: quantity });
+    }
+  };
+
   sendToCart = () => {
     const { product } = this.state;
     cart.addToCart(product);
+    this.getQuantity();
   };
 
   render() {
-    const { loading, product, productLoaded } = this.state;
+    const { loading, product, productLoaded, cartSize } = this.state;
     return (
       <div
         className="product-container"
@@ -50,8 +61,18 @@ export default class ProductPage extends Component {
               data-testid="shopping-cart-button"
               type="button"
             >
-              Carrinho de Compras
+              {
+                cartSize === 0 ? <span>Carrinho</span>
+                  : (
+                    <span
+                      data-testid="shopping-cart-size"
+                    >
+                      {`Carrinho (${cartSize})`}
+                    </span>
+                  )
+              }
             </button>
+
           </Link>
 
         </div>

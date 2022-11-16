@@ -11,6 +11,12 @@ export const getQuantity = (id) => {
   return item.quantity;
 };
 
+export const sumCartQuantity = () => {
+  const cartItems = JSON.parse(localStorage.getItem('cartItems'));
+  const totalQuantity = cartItems.reduce((acc, cur) => acc + cur.quantity, 0);
+  localStorage.setItem('cartSize', totalQuantity);
+};
+
 // export const increaseQuantity = (id) => {
 //   const cartItems = JSON.parse(localStorage.getItem('cartItems'));
 //   const item = cartItems.find((i) => i.id === id);
@@ -40,4 +46,5 @@ export const addToCart = (product) => {
   cartItems.push(productWithQtt);
   const cartItemsString = JSON.stringify(cartItems);
   localStorage.setItem('cartItems', cartItemsString);
+  sumCartQuantity();
 };
