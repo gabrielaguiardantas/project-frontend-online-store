@@ -33,9 +33,11 @@ export default class ProductPage extends Component {
   };
 
   getQuantity = () => {
-    const quantity = JSON.parse(localStorage.getItem('cartSize'));
-    if (quantity === null) this.setState({ cartSize: 0 });
-    else this.setState({ cartSize: quantity });
+    if (localStorage.getItem('cartSize')) {
+      const quantity = JSON.parse(localStorage.getItem('cartSize'));
+      if (quantity === null) this.setState({ cartSize: 0 });
+      else this.setState({ cartSize: quantity });
+    }
   };
 
   sendToCart = () => {
