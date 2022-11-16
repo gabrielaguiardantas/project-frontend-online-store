@@ -17,6 +17,12 @@ export const sumCartQuantity = () => {
   localStorage.setItem('cartSize', totalQuantity);
 };
 
+export const getAvailableQuantity = ({ target: { id } }) => {
+  const cartItems = JSON.parse(localStorage.getItem('cartItems'));
+  const item = cartItems.find((i) => i.id === id);
+  return item.available_quantity;
+};
+
 // export const increaseQuantity = (id) => {
 //   const cartItems = JSON.parse(localStorage.getItem('cartItems'));
 //   const item = cartItems.find((i) => i.id === id);
