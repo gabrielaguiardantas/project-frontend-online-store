@@ -13,15 +13,18 @@ class ProductList extends Component {
     requestedInfo: [],
     loading: false,
     // cartProducts: [],
+    cartSize: 0,
   };
 
   componentDidMount() {
     this.setLocalStorage();
+    this.getQuantity();
   }
 
   setLocalStorage = () => {
     if (localStorage.getItem('cartItems')) return;
     localStorage.setItem('cartItems', '');
+    localStorage.setItem('cartSize', '');
   };
 
   handleChange = ({ target }) => {
@@ -30,6 +33,14 @@ class ProductList extends Component {
     this.setState({
       [name]: value,
     });
+  };
+
+  getQuantity = () => {
+    if (localStorage.getItem('cartSize')) {
+      const quantity = JSON.parse(localStorage.getItem('cartSize'));
+      if (quantity === null) this.setState({ cartSize: 0 });
+      else this.setState({ cartSize: quantity });
+    }
   };
 
   validateFetchProducts = () => {
@@ -87,6 +98,7 @@ class ProductList extends Component {
     const { requestedInfo } = this.state;
     const productFound = requestedInfo.find((productObj) => productObj.id === id);
     cart.addToCart(productFound);
+    this.getQuantity();
     // this.setState(({ cartProducts }) => (
     //   { cartProducts: [...cartProducts, productFound] }), () => {
     //   const { cartProducts } = this.state;
@@ -100,7 +112,7 @@ class ProductList extends Component {
       searchInputText,
       requestedInfo,
       hasProducts,
-      loading,
+      loading, cartSize,
     } = this.state;
 
     return (
@@ -144,7 +156,18 @@ class ProductList extends Component {
             </div>
           )}
           <Link to="/shopping-cart" data-testid="shopping-cart-button">
-            <button type="button">Carrinho</button>
+            <button type="button">
+              {
+                cartSize === 0 ? <span>Carrinho</span>
+                  : (
+                    <span
+                      data-testid="shopping-cart-size"
+                    >
+                      {`Carrinho (${cartSize})`}
+                    </span>
+                  )
+              }
+            </button>
           </Link>
 
           <div className="products-list">
