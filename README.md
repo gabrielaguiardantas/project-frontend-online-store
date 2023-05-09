@@ -16,3 +16,4 @@ https://user-images.githubusercontent.com/110852595/236912599-d4193bfb-fef0-44a7
 
 ## Features implementadas: ##
 
+![features-project10](https://github.com/gabrielaguiardantas/project-frontend-online-store/assets/110852595/25cbd041-fbde-47ef-941a-d525a0706086)
